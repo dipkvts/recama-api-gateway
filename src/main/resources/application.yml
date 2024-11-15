@@ -5,15 +5,21 @@ spring:
   cloud:
     gateway:
       enabled: true
+      filter:
+        local-response-cache:
+          enabled: true
       discovery:
         locator:
           enabled: true
       routes:
         # User Mgmnt API Routes
-        - id: 01-usermgmt-api-routes
-          predicates:
-            - Path=/users/**
-          uri: lb://ACMA-USERMGMT-SERVICE
+#        - id: 01-usermgmt-api-routes
+#          predicates:
+#            - Path=/acma/users/**   
+#          uri: lb://ACMA-USERMGMT-SERVICE
+#          filters:
+#           - RewritePath=/acma/users/?(?<segment>.*),/users/$\{segment}
+#           - AddRequestHeader=userType,owner
 
         # User Mgmt document Routes
         - id: 01a-usermgmt-document-routes
@@ -36,6 +42,7 @@ spring:
           predicates:
             - Path=/token
           uri: lb://ACMA-AUTHN-AUTHZ-SERVICE
+          
 
 server:
   port: 6060
